@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableJpaRepositories (
-        basePackages = "com.jpaproject.jpa_prj.main.mainDbRepository",
+        basePackages = "com.jpaproject.jpa_prj.main",
         entityManagerFactoryRef = "mainEntityManager",
         transactionManagerRef = "mainTransactionManager"
 )
@@ -34,7 +34,7 @@ public class MainConfig {
     public LocalContainerEntityManagerFactoryBean mainEntityManager() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(mainDataSource());
-        em.setPackagesToScan(new String[] {"com.jpaproject.jpa_prj.main.mainDbEntity"});
+        em.setPackagesToScan(new String[] {"com.jpaproject.jpa_prj.main"});
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
 

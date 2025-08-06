@@ -1,4 +1,4 @@
-package com.jpaproject.jpa_prj.analysis.analysisDbEntity;
+package com.jpaproject.jpa_prj.main.analysis.analysisDbEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

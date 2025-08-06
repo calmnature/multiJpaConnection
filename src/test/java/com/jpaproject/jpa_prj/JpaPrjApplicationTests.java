@@ -1,9 +1,9 @@
 package com.jpaproject.jpa_prj;
 
-import com.jpaproject.jpa_prj.analysis.analysisDbEntity.Analysis;
+import com.jpaproject.jpa_prj.main.analysis.analysisDbEntity.Analysis;
 import com.jpaproject.jpa_prj.main.mainDbEntity.Main;
 import com.jpaproject.jpa_prj.main.mainDbRepository.MainRepository;
-import com.jpaproject.jpa_prj.analysis.analysisDbRepository.AnalysisRepository;
+import com.jpaproject.jpa_prj.main.analysis.analysisDbRepository.AnalysisRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

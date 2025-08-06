@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableJpaRepositories (
-        basePackages = "com.jpaproject.jpa_prj.analysis.analysisDbRepository",
+        basePackages = "com.jpaproject.jpa_prj.main.analysis",
         entityManagerFactoryRef = "analysisEntityManager",
         transactionManagerRef = "analysisTransactionManager"
 )
@@ -31,7 +31,7 @@ public class AnalysisConfig {
     public LocalContainerEntityManagerFactoryBean analysisEntityManager() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(analysisDataSource());
-        em.setPackagesToScan(new String[] {"com.jpaproject.jpa_prj.analysis.analysisDbEntity"});
+        em.setPackagesToScan(new String[] {"com.jpaproject.jpa_prj.main.analysis"});
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Map<String, Object> properties = new HashMap<>();

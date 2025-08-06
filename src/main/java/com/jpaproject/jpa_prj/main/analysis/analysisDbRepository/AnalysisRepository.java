@@ -1,6 +1,6 @@
-package com.jpaproject.jpa_prj.analysis.analysisDbRepository;
+package com.jpaproject.jpa_prj.main.analysis.analysisDbRepository;
 
-import com.jpaproject.jpa_prj.analysis.analysisDbEntity.Analysis;
+import com.jpaproject.jpa_prj.main.analysis.analysisDbEntity.Analysis;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
