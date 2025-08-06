@@ -1,4 +1,4 @@
-package com.jpaproject.jpa_prj.db1Entity;
+package com.jpaproject.jpa_prj.analysis.analysisDbEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,13 +13,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DB1 {
+public class Analysis {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String db1Col1;
-    private String db1Col2;
-    private String db1Col3;
-    private String db1Col4;
+    private String analysisCol1;
+    private String analysisCol2;
+    private String analysisCol3;
+    private String analysisCol4;
 }

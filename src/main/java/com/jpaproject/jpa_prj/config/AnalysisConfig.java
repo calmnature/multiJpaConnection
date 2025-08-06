@@ -4,7 +4,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -16,34 +15,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableJpaRepositories (
-        basePackages = "com.jpaproject.jpa_prj.db1Repository",
-        entityManagerFactoryRef = "db1EntityManager",
-        transactionManagerRef = "db1TransactionManager"
+        basePackages = "com.jpaproject.jpa_prj.analysis.analysisDbRepository",
+        entityManagerFactoryRef = "analysisEntityManager",
+        transactionManagerRef = "analysisTransactionManager"
 )
 @Configuration
-public class db1Config {
-    @Primary
+public class AnalysisConfig {
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.hikari.db1")
-    protected DataSource db1DataSource() {
+    @ConfigurationProperties(prefix = "spring.datasource.hikari.analysis")
+    protected DataSource analysisDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Primary
     @Bean
-    public LocalContainerEntityManagerFactoryBean db1EntityManager() {
+    public LocalContainerEntityManagerFactoryBean analysisEntityManager() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(db1DataSource());
-        em.setPackagesToScan(new String[] {"com.jpaproject.jpa_prj.db1Entity"});
+        em.setDataSource(analysisDataSource());
+        em.setPackagesToScan(new String[] {"com.jpaproject.jpa_prj.analysis.analysisDbEntity"});
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
-
-        // yml 파일의 spring.jpa.* 설정은 기본 데이터소스 하나에만 적용이 된다고 함
-        // 현재는 멀티 데이터소스 구성을 했기 때문에 db1EntityManager에 명시를 해줘야한다고 함
-        // 아래 설정을 해주고 나서야, 프로젝트가 실행될 때 테이블을 생성해 줌
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         properties.put("hibernate.show_sql", true);
         properties.put("hibernate.format_sql", true);
         em.setJpaPropertyMap(properties);
@@ -51,11 +44,10 @@ public class db1Config {
         return em;
     }
 
-    @Primary
     @Bean
-    public PlatformTransactionManager db1TransactionManager() {
+    public PlatformTransactionManager analysisTransactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(db1EntityManager().getObject());
+        transactionManager.setEntityManagerFactory(analysisEntityManager().getObject());
 
         return transactionManager;
     }

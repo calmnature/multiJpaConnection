@@ -16,28 +16,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableJpaRepositories (
-        basePackages = "com.jpaproject.jpa_prj.db2Repository",
-        entityManagerFactoryRef = "db2EntityManager",
-        transactionManagerRef = "db2TransactionManager"
+        basePackages = "com.jpaproject.jpa_prj.main.mainDbRepository",
+        entityManagerFactoryRef = "mainEntityManager",
+        transactionManagerRef = "mainTransactionManager"
 )
 @Configuration
-public class db2Config {
+public class MainConfig {
+    @Primary
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.hikari.db2")
-    protected DataSource db2DataSource() {
+    @ConfigurationProperties(prefix = "spring.datasource.hikari.main")
+    protected DataSource mainDataSource() {
         return DataSourceBuilder.create().build();
     }
 
+    @Primary
     @Bean
-    public LocalContainerEntityManagerFactoryBean db2EntityManager() {
+    public LocalContainerEntityManagerFactoryBean mainEntityManager() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(db2DataSource());
-        em.setPackagesToScan(new String[] {"com.jpaproject.jpa_prj.db2Entity"});
+        em.setDataSource(mainDataSource());
+        em.setPackagesToScan(new String[] {"com.jpaproject.jpa_prj.main.mainDbEntity"});
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
+
+        // yml 파일의 spring.jpa.* 설정은 기본 데이터소스 하나에만 적용이 된다고 함
+        // 현재는 멀티 데이터소스 구성을 했기 때문에 db1EntityManager에 명시를 해줘야한다고 함
+        // 아래 설정을 해주고 나서야, 프로젝트가 실행될 때 테이블을 생성해 줌
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         properties.put("hibernate.show_sql", true);
         properties.put("hibernate.format_sql", true);
         em.setJpaPropertyMap(properties);
@@ -45,10 +51,11 @@ public class db2Config {
         return em;
     }
 
+    @Primary
     @Bean
-    public PlatformTransactionManager db2TransactionManager() {
+    public PlatformTransactionManager mainTransactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(db2EntityManager().getObject());
+        transactionManager.setEntityManagerFactory(mainEntityManager().getObject());
 
         return transactionManager;
     }
